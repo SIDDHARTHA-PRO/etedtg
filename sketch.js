@@ -1,38 +1,51 @@
-const Engine=Matter.Engine;
-const World=Matter.World;
-const Bodies=Matter.Bodies;
+var bullet,wall;
+var speed,weight,thickness;
 
-var engine,world
-var ball,ground
+
 function setup() {
- var canvas= createCanvas(400,400);
- engine=Engine.create()
- world=engine.world 
- var ground_options={
-isStatic:true
- }
- ground=Bodies.rectangle(200,390,200,20,ground_options)
- World.add(world,ground)
+  createCanvas(1600,400);
+ bullet=createSprite(50, 200, 80, 50);
 
-var ball_options={
-  restitution:1
+  wall=createSprite(900, 200, thickness, height);
+wall.shapeColor=(20,20,20)
+  speed=random(55,90)
+weight=random(400,1500)
+thickness=random(22,83)
+bullet.velocityX=speed;
 }
-ball=Bodies.circle(200,200,10,ball_options)
-World.add(world,ball)
-
-}
-
+console.log(wall.x-car.x)
 function draw() {
-  background("black");  
-Engine.update(engine)
-rectMode(CENTER)
-rect(ground.position.x,ground.position.y,400,20)  
-ellipseMode(RADIUS)
-ellipse(ball.position.x,ball.position.y,20,20)
+  background("blue"); 
+  
+  if(hasCollided(bullet,wall)){
+
+    var damage=0.5*weight*speed*speed/(thickness*thickness*thickness)
+    if(damage<10){
+      wall.shapeColor="green" 
+    }
+    if(damage>10){
+      wall.shapeColor="red" 
+    }
+  }
+
+
+  drawSprites();
+}
+function hasCollided(lbullet,lwall)
+{
+  
+bulletRightEdge=lbullet.x+lbullet.width;
+wallLeftEdge=lbullet.x
+if(bulletRightEdge>=wallLeftEdge)
+{
+  
+  return true
+  
+}else{
+  return false
+}
 
 
 
 }
-
-
 
